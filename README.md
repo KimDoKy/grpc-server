@@ -7,6 +7,10 @@
 ├── cmd        : 
 ├── config     : 환경변수들을 관리
 ├── gRPC
+│   ├── client
+│   ├── paseto
+│   ├── proto
+│   └── server
 ├── go.mod
 ├── main.go
 ├── network    : router

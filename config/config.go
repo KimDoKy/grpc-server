@@ -1,11 +1,16 @@
 package config
 
 import (
-	"github.com/naoina/toml"
 	"os"
+
+	"github.com/naoina/toml"
 )
 
-type Config struct{}
+type Config struct {
+	Paseto struct {
+		Key string
+	}
+}
 
 // 환경변수 파일을 불러올 함수
 func NewConfig(path string) *Config {
