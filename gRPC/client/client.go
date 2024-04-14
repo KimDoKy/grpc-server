@@ -1,9 +1,11 @@
 package client
 
 import (
+	"context"
 	"grpc-server/config"
 	"grpc-server/gRPC/paseto"
 	auth "grpc-server/gRPC/proto"
+	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -29,10 +31,33 @@ func NewGRPCClient(cfg *config.Config) (*GRPCClient, error) {
 	return c, nil
 }
 
-func (g *GRPCClient) CreateAuth(address string) (*auth.AuthData, error) {
-	return nil, nil
+func (g *GRPCClient) CreateAuth(name string) (*auth.AuthData, error) {
+	now := time.Now()
+	expiredTime := now.Add(30 * time.Minute)
+
+	a := &auth.AuthData{
+		Name:       name,
+		CreateDate: now.Unix(),
+		ExpireDate: expiredTime.Unix(),
+	}
+
+	if token, err := g.pasetoMaker.CreateNewToken(a); err != nil {
+		return nil, err
+	} else {
+		a.Token = token
+
+		if res, err := g.authClient.CreateAuth(context.Background(), &auth.CreateTokenReq{Auth: a}); err != nil {
+			return nil, err
+		} else {
+			return res.Auth, nil
+		}
+	}
 }
 
-func (g *GRPCClient) VerifyAuth(token string) (*auth.VerifyTokenRes, error) {
-	return nil, nil
+func (g *GRPCClient) VerifyAuth(token string) (*auth.Verify, error) {
+	if res, err := g.authClient.VerifyAuth(context.Background(), &auth.VerifyTokenReq{Token: token}); err != nil {
+		return nil, err
+	} else {
+		return res.V, nil
+	}
 }
