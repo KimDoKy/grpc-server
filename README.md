@@ -18,7 +18,10 @@
 ### install package
 
 ```bash
+// for config file with toml
 go get github.com/naoina/toml
+// open source run server
+go get github.com/gin-gonic/gin
 ```
 
 ### Run
