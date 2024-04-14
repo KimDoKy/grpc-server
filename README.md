@@ -28,6 +28,8 @@ go get github.com/naoina/toml
 go get github.com/gin-gonic/gin
 // paseto (token auth)
 go get github.com/o1egl/paseto
+// grpc
+go get google.golang.org/grpc
 ```
 
 ### install grpc, proto

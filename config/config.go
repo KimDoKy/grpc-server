@@ -10,6 +10,10 @@ type Config struct {
 	Paseto struct {
 		Key string
 	}
+
+	GRPC struct {
+		URL string
+	}
 }
 
 // 환경변수 파일을 불러올 함수
