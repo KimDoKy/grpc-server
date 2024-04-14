@@ -5,7 +5,7 @@ message AuthData {
     string name = 1;
     string token = 2;
     int64 createDate = 3;
-    init64 expireDate = 4;
+    int64 expireDate = 4;
 }
 
 message Verity {
@@ -36,6 +36,6 @@ message VerifyTokenRes {
 }
 
 service AuthService {
-    rpc CreateAuth(CreateTokenReq) return (CreateTokenRes);
-    rpc VerifyAuth(VerifyTokenReq) return (VerifyTokenRes);
+    rpc CreateAuth(CreateTokenReq) returns (CreateTokenRes);
+    rpc VerifyAuth(VerifyTokenReq) returns (VerifyTokenRes);
 }
