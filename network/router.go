@@ -11,14 +11,19 @@ import (
 type Network struct {
 	cfg *config.Config
 
-	servie     *service.Service
+	service    *service.Service
 	gRPCClient *client.GRPCClient
 
 	engin *gin.Engine
 }
 
 func NewNetwork(cfg *config.Config, service *service.Service, gRPCClient *client.GRPCClient) (*Network, error) {
-	r := &Network{cfg: cfg, servie: service, engin: gin.New(), gRPCClient: gRPCClient}
+	r := &Network{cfg: cfg, service: service, engin: gin.New(), gRPCClient: gRPCClient}
+
+	r.engin.POST("/login", r.login)
+
+	r.engin.GET("/verify", r.verifyLogin(), r.verify)
+
 	return r, nil
 }
 

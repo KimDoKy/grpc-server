@@ -1,7 +1,6 @@
 package paseto
 
 import (
-	"crypto/rand"
 	"grpc-server/config"
 	auth "grpc-server/gRPC/proto"
 
@@ -17,13 +16,11 @@ func NewPasetoMaker(cfg *config.Config) *PasetoMaker {
 	return &PasetoMaker{Pt: paseto.NewV2(), Key: []byte(cfg.Paseto.Key)}
 }
 
-func (m *PasetoMaker) CreateNewToken(auth *auth.AuthData) (string, error) {
-	randomBytes := make([]byte, 16)
-	rand.Read(randomBytes)
-	return m.Pt.Encrypt(m.Key, auth, randomBytes)
+func (m *PasetoMaker) CreateNewToken(auth auth.AuthData) (string, error) {
+	return m.Pt.Encrypt(m.Key, auth, nil)
 }
 
 func (m *PasetoMaker) VerifyToken(token string) error {
-	var auth *auth.AuthData
-	return m.Pt.Decrypt(token, m.Key, auth, nil)
+	var auth auth.AuthData
+	return m.Pt.Decrypt(token, m.Key, &auth, nil)
 }
